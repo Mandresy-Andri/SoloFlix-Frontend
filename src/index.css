@@ -103,7 +103,7 @@ h1 {
 .ant-modal-content { background-color: rgb(0, 0, 0) !important; } 
 
 .login-form {
-  background-image: url('C:\Users\andri\Documents\Code\Codes\streaming app frontend\streaming-app-frontend\src\img\cinema.jpg') ;
+  background-image: url(./img/cinema.jpg) ;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
