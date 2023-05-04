@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { InfoCircleOutlined } from '@ant-design/icons';
 
 function Login() {
   const navigate = useNavigate();
@@ -49,13 +50,13 @@ function Login() {
     <div className="login-form">
     <Form
       name="basic"
-      labelCol={{ span: 8 }}
-      wrapperCol={{ span: 16 }}
-      style={{ maxWidth: 600, background: 'rgba(0, 0, 0, 0.6)', height: 550, width: 400, paddingLeft: 35, paddingTop:90}}
+      wrapperCol={{ span: '100%'}}
+      style={{width:'40%', maxHeight:'50%',padding:'1% 5%', background: 'rgba(0, 0, 0, 0.6)',marginTop:'10%', borderRadius:'25px'}}
       initialValues={{ remember: true }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       autoComplete="off"
+      layout="vertical"
     >
       <Form.Item>
       <span style={{ color: "white", fontFamily: 'fantasy', fontSize: 20}}>Sign In</span>
@@ -64,7 +65,13 @@ function Login() {
       <Form.Item
         name="username"
         rules={[{ required: true, validator: validateEmail }]}
-        style={{ width: 500}}
+        tooltip={{
+          title: 'Tooltip with customize icon',
+          icon: <InfoCircleOutlined />,
+        }}
+        label={
+          <span style={{ color: 'white' }}>test: plainUser@gmail.com</span>
+        }
       >
         <Input placeholder="Username"/>
       </Form.Item>
@@ -72,7 +79,13 @@ function Login() {
       <Form.Item
         name="password"
         rules={[{ required: true, message: 'Please input your password!' }]}
-        style={{ width: 500}}
+        tooltip={{
+          title: 'Tooltip with customize icon',
+          icon: <InfoCircleOutlined />,
+        }}
+        label={
+          <span style={{ color: 'white' }}>test: password</span>
+        }
       >
         <Input.Password  placeholder="Password"/>
       </Form.Item>
@@ -82,7 +95,7 @@ function Login() {
       </Form.Item>
 
       <Form.Item>
-        <Button style={{ width: 325, backgroundColor: 'red'}} type="primary" htmlType="submit">
+        <Button style={{ width: '100%', backgroundColor: 'red'}} type="primary" htmlType="submit">
           Sign In
         </Button>
       </Form.Item>
