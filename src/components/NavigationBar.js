@@ -40,14 +40,14 @@ function NavigationBar() {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/mylist">My List</Nav.Link>
+            {/* <Nav.Link href="/mylist">My List</Nav.Link> */}
           </Nav>
           <Nav>
             {/*<Nav.Link href="#deets">Search</Nav.Link>*/}
             <NavDropdown 
             title={<img src={userIcon} alt="User Icon"  width="50rem" height="50rem" className="align-top" style={{ marginTop: '-10px' }}/> } 
             id="basic-nav-dropdown">
-              <NavDropdown.Item>Profile</NavDropdown.Item>
+              {/* <NavDropdown.Item>Profile</NavDropdown.Item> */}
               <NavDropdown.Item>
               <Logout/>
               </NavDropdown.Item>

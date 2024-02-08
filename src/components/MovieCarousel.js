@@ -18,7 +18,7 @@ const MovieCarousel = (title) => {
       const res = await MovieService.getCarouselMovies(title);
       const data = res.data.data;
       const movieList = Object.values(data)[0];
-      setMovies(movieList);
+      setMovies(movieList.reverse());
     };
     
     fetchMovies();

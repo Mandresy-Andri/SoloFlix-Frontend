@@ -15,13 +15,13 @@ function BigVideo() {
     let player;
     window.onYouTubeIframeAPIReady = () => {
       player = new window.YT.Player('player', {
-        videoId: 'NmyGak3l12Y', // Replace with your YouTube video ID
+        videoId: 'lV1OOlGwExM', // Replace with your YouTube video ID
         playerVars: {
           autoplay: 1, // Play the video automatically
           controls: 0, // Hide the video controls
           modestbranding: 1, // Hide the YouTube logo
           loop: 1, // Loop the video
-          playlist: 'NmyGak3l12Y', // Repeat the video
+          playlist: 'lV1OOlGwExM', // Repeat the video
           mute: 0, // Mute the video
           disablekb: 1, // Disable keyboard controls
           enablejsapi: 0, // Disable interaction through JavaScript
@@ -81,8 +81,7 @@ function BigVideo() {
   return (
     <div className="video-container">
       <div className="text-container">
-        <h1>One Piece Red</h1>
-        <p>I will be the King of the Pirates!</p>
+        <h1>Godzilla x Kong<br></br><br></br>The New Empire</h1>
       </div>
       <div id="player" />
     </div>
