@@ -5,28 +5,46 @@ import { InfoCircleOutlined } from '@ant-design/icons';
 
 function Login() {
   const navigate = useNavigate();
+  
+  // Deactivate auth since I already have another project with auth ( the auth sever was getting expensive)
+  // const onFinish = async (values) => {
+  //   try {
+  //     const response = await fetch("https://authorization-service.up.railway.app/auth/oauth/token", {
+  //       method: "POST",
+  //       headers: {
+  //         Authorization: "Basic aHRtbDU6YXBwX3NlY3JldA==",
+  //         "Content-Type": "application/x-www-form-urlencoded",
+  //       },
+  //       body: new URLSearchParams({
+  //         username: values.username,
+  //         password: values.password,
+  //         grant_type: "password",
+  //         scope: "ROLE_USER",
+  //       }),
+  //     });
 
+  //     if (!response.ok) {
+  //       const error = await response.text();
+  //       throw new Error(error);
+  //     } else {
+  //       const { access_token } = await response.json();
+  //       localStorage.setItem("access_token", access_token);
+  //       navigate('/');
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+
+  //Auth mock. Just check if the user enters the provided values
   const onFinish = async (values) => {
     try {
-      const response = await fetch("https://authorization-service.up.railway.app/auth/oauth/token", {
-        method: "POST",
-        headers: {
-          Authorization: "Basic aHRtbDU6YXBwX3NlY3JldA==",
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({
-          username: values.username,
-          password: values.password,
-          grant_type: "password",
-          scope: "ROLE_USER",
-        }),
-      });
-
-      if (!response.ok) {
-        const error = await response.text();
+      if (values.username != "plainUser@gmail.com" || values.password != "password") {
+        const error = "Wrong username or password";
         throw new Error(error);
       } else {
-        const { access_token } = await response.json();
+        const { access_token } = "123456789";
         localStorage.setItem("access_token", access_token);
         navigate('/');
       }
