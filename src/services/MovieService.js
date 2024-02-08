@@ -29,7 +29,7 @@ const MovieService = {
       Authorization: `Bearer ${token}`,
     };
     
-    return axios.get(API_URL, { headers });
+    return axios.get(API_URL);
   },
 
   async getUser() {
@@ -46,7 +46,7 @@ const MovieService = {
         }
       }
     `;
-    return axios.get(API_URL, { query }, { headers });
+    return axios.get(API_URL, { query });
   }
   
 };
