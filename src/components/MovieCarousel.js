@@ -83,29 +83,44 @@ const MovieCarousel = (title) => {
       <Modal
         visible={isModalOpen}
         onCancel={handleModalClose}
-        footer={[
-          <Button key="close" onClick={handleModalClose}>
-            Close
-          </Button>,
-        ]}
-        width={1000}
+        footer={null}
+        width={1100}
+        className="movie-details-modal"
+        centered
       >
         {selectedMovie && selectedMovie.movie ? (
-          <div style={{ position: 'relative', paddingTop: '56.25%' }}>
-            <YouTube
+          <div className="modal-content-wrapper">
+            <div className="modal-video-container">
+              <YouTube
                 videoId={selectedMovie.movie.video ? selectedMovie.movie.video.split("=")[1] : ''}
                 onReady={onReady}
                 opts={{
                   width: '100%',
-                  height: '530rem',
+                  height: '600',
                   playerVars: {
                     autoplay: 1,
+                    controls: 1,
+                    modestbranding: 1,
+                    rel: 0,
                   },
                 }}
-                style={{ position: 'absolute', top: 0, left: 0, width: '60rem'}}
               />
-              <p style={{ color: 'white' }}>{selectedMovie.movie.title}</p>
-              <p style={{ color: 'white' }}>{selectedMovie.movie.description}</p>
+            </div>
+            <div className="modal-details">
+              <h2 className="modal-title">{selectedMovie.movie.title}</h2>
+              {selectedMovie.movie.year && (
+                <div className="modal-metadata">
+                  <span className="metadata-item">{selectedMovie.movie.year}</span>
+                  {selectedMovie.movie.rating && (
+                    <>
+                      <span className="metadata-separator">•</span>
+                      <span className="metadata-item">{selectedMovie.movie.rating}</span>
+                    </>
+                  )}
+                </div>
+              )}
+              <p className="modal-description">{selectedMovie.movie.description}</p>
+            </div>
           </div>
         ) : null}
       </Modal>

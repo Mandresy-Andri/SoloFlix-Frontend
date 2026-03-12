@@ -19,6 +19,25 @@ code {
   flex-direction: column;
   align-items: center;
   object-fit: contain;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.video-container:hover .video-overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  transition: background 0.3s ease;
+  pointer-events: none;
 }
 
 #player {
@@ -27,6 +46,11 @@ code {
   left: 0;
   width: 100%;
   height: 100%;
+  pointer-events: none;
+}
+
+#player iframe {
+  pointer-events: none;
 }
 
 .text-container {
@@ -35,7 +59,30 @@ code {
   left: 5%;
   transform: translateY(-50%);
   color: white;
-  z-index: 1;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hero-title {
+  font-size: 4rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 15px !important;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+  line-height: 1.2 !important;
+}
+
+.hero-info {
+  display: flex;
+  gap: 15px;
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+.hero-year, .hero-rating {
+  padding: 5px 12px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 4px;
+  font-weight: 500;
 }
 
 h1 {
@@ -129,4 +176,83 @@ h1 {
 .ant-checkbox-checked .ant-checkbox-inner {
   background-color: grey;
   border-color: grey;
+}
+
+/* Modal Styling */
+.movie-details-modal .ant-modal-content {
+  background-color: #181818 !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+}
+
+.movie-details-modal .ant-modal-close {
+  color: #ffffff !important;
+  background: rgba(0, 0, 0, 0.7) !important;
+  border-radius: 50%;
+  top: 15px !important;
+  right: 15px !important;
+}
+
+.movie-details-modal .ant-modal-close:hover {
+  background: rgba(0, 0, 0, 0.9) !important;
+}
+
+.movie-details-modal .ant-modal-body {
+  padding: 0 !important;
+}
+
+.modal-content-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-video-container {
+  width: 100%;
+  background: #000;
+}
+
+.modal-video-container iframe {
+  display: block;
+  width: 100%;
+}
+
+.modal-details {
+  padding: 30px 40px 40px;
+  background: linear-gradient(to bottom, #181818 0%, #141414 100%);
+}
+
+.modal-title {
+  font-size: 2.5rem !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  margin-bottom: 15px !important;
+  margin-top: 0 !important;
+  text-align: left !important;
+  line-height: 1.2 !important;
+}
+
+.modal-metadata {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+}
+
+.metadata-item {
+  color: #46d369;
+  font-weight: 600;
+}
+
+.metadata-separator {
+  color: #808080;
+  font-weight: 400;
+}
+
+.modal-description {
+  font-size: 1.15rem !important;
+  line-height: 1.6 !important;
+  color: #d1d1d1 !important;
+  margin: 0 !important;
+  text-align: left !important;
 }
