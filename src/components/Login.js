@@ -88,7 +88,7 @@ function Login() {
           icon: <InfoCircleOutlined />,
         }}
         label={
-          <span style={{ color: 'white' }}>test: plainUser@gmail.com</span>
+          <span style={{ color: 'white' }}>email</span>
         }
       >
         <Input placeholder="Username"/>
@@ -102,7 +102,7 @@ function Login() {
           icon: <InfoCircleOutlined />,
         }}
         label={
-          <span style={{ color: 'white' }}>test: password</span>
+          <span style={{ color: 'white' }}>password</span>
         }
       >
         <Input.Password  placeholder="Password"/>

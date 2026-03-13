@@ -25,7 +25,7 @@ function MainPage() {
   return (
     <div>
       <NavigationBar/>
-      <ul><BigVideo/></ul>
+      <BigVideo/>
       <h1>Trending</h1>
       <ul><MovieCarousel title="trendingMovies"/></ul>
       <h1>Popular</h1>

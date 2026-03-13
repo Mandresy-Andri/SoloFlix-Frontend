@@ -1,17 +1,22 @@
 import React, { useEffect, useState} from 'react';
 import Slider from 'react-slick';
-import { Button, Modal } from 'antd';
+import { Button, Modal, message } from 'antd';
+import { PlusOutlined, CheckOutlined } from '@ant-design/icons';
 import MovieService from '../services/MovieService'
 import YouTube from 'react-youtube';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
+const USER_EMAIL = 'plainUser@gmail.com';
+
 const MovieCarousel = (title) => {
   const [player, setPlayer] = useState(null);
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isInMyList, setIsInMyList] = useState(false);
+  const [addingToList, setAddingToList] = useState(false);
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -40,9 +45,37 @@ const MovieCarousel = (title) => {
     cssEase: 'linear',
   };
 
-  const handleMovieClick = (movie) => {
+  const handleMovieClick = async (movie) => {
     setSelectedMovie(movie);
     setIsModalOpen(true);
+    setIsInMyList(false);
+    if (movie && movie.movie && movie.movie.id) {
+      try {
+        const res = await MovieService.checkInMyList(USER_EMAIL, movie.movie.id);
+        setIsInMyList(res.data.data.findMyListItem !== null);
+      } catch (err) {
+        console.error('Error checking list:', err);
+      }
+    }
+  };
+
+  const handleAddToList = async () => {
+    if (!selectedMovie || !selectedMovie.movie) return;
+    setAddingToList(true);
+    try {
+      await MovieService.addToMyList(USER_EMAIL, selectedMovie.movie.id);
+      setIsInMyList(true);
+      message.success('Added to My List!');
+    } catch (error) {
+      if (error.response?.data?.errors?.[0]?.message?.includes('already in list')) {
+        setIsInMyList(true);
+        message.info('Already in your list');
+      } else {
+        message.error('Failed to add to list');
+      }
+    } finally {
+      setAddingToList(false);
+    }
   };
 
   const handleModalClose = () => {
@@ -120,6 +153,23 @@ const MovieCarousel = (title) => {
                 </div>
               )}
               <p className="modal-description">{selectedMovie.movie.description}</p>
+              <div style={{ marginTop: '20px' }}>
+                <Button
+                  type="primary"
+                  size="large"
+                  icon={isInMyList ? <CheckOutlined /> : <PlusOutlined />}
+                  disabled={isInMyList}
+                  loading={addingToList}
+                  onClick={handleAddToList}
+                  style={{
+                    backgroundColor: isInMyList ? '#333' : '#e50914',
+                    borderColor: isInMyList ? '#333' : '#e50914',
+                    fontWeight: 600,
+                  }}
+                >
+                  {isInMyList ? 'In My List' : 'Add to My List'}
+                </Button>
+              </div>
             </div>
           </div>
         ) : null}

@@ -1,12 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Modal } from 'antd';
+import { Button, Modal, message } from 'antd';
+import { PlusOutlined, CheckOutlined } from '@ant-design/icons';
 import YouTube from 'react-youtube';
+import MovieService from '../services/MovieService';
+
+const USER_EMAIL = 'plainUser@gmail.com';
 
 function BigVideo() {
   const playerRef = useRef(null);
   const intersectionObserverRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalPlayer, setModalPlayer] = useState(null);
+  const [isInMyList, setIsInMyList] = useState(false);
+  const [addingToList, setAddingToList] = useState(false);
+  const [heroMovieDbId, setHeroMovieDbId] = useState(null);
   const threshold = 0.5;
 
   const movieDetails = {
@@ -45,7 +52,7 @@ function BigVideo() {
         },
         events: {
           onReady: () => {
-            player.setSize(window.innerWidth-50, window.innerHeight-100);
+            // Sizing is now handled purely by CSS using object-fit cover tricks
             if (playerRef.current && typeof playerRef.current.playVideo === 'function') {
               playerRef.current.playVideo();
             }
@@ -75,7 +82,7 @@ function BigVideo() {
         { threshold }
       );
 
-      intersectionObserverRef.current.observe(player.getIframe());
+      intersectionObserverRef.current.observe(player.getIframe().parentElement);
     };
 
     return () => {
@@ -88,6 +95,46 @@ function BigVideo() {
       document.body.removeChild(script);
     };
   }, []);
+
+  // Look up the hero movie's DB id so we can add it to the list
+  useEffect(() => {
+    const lookupMovie = async () => {
+      try {
+        const res = await MovieService.searchMovies(movieDetails.title);
+        const movies = res.data.data.searchMovies;
+        if (movies && movies.length > 0) {
+          setHeroMovieDbId(movies[0].id);
+          const check = await MovieService.checkInMyList(USER_EMAIL, movies[0].id);
+          setIsInMyList(check.data.data.findMyListItem !== null);
+        }
+      } catch (err) {
+        console.error('Error looking up hero movie:', err);
+      }
+    };
+    lookupMovie();
+  }, []);
+
+  const handleAddToList = async () => {
+    if (!heroMovieDbId) {
+      message.warning('Movie not found in database');
+      return;
+    }
+    setAddingToList(true);
+    try {
+      await MovieService.addToMyList(USER_EMAIL, heroMovieDbId);
+      setIsInMyList(true);
+      message.success('Added to My List!');
+    } catch (error) {
+      if (error.response?.data?.errors?.[0]?.message?.includes('already in list')) {
+        setIsInMyList(true);
+        message.info('Already in your list');
+      } else {
+        message.error('Failed to add to list');
+      }
+    } finally {
+      setAddingToList(false);
+    }
+  };
 
   const handleVideoClick = () => {
     setIsModalOpen(true);
@@ -152,6 +199,23 @@ function BigVideo() {
               <span className="metadata-item">{movieDetails.rating}</span>
             </div>
             <p className="modal-description">{movieDetails.description}</p>
+            <div style={{ marginTop: '20px' }}>
+              <Button
+                type="primary"
+                size="large"
+                icon={isInMyList ? <CheckOutlined /> : <PlusOutlined />}
+                disabled={isInMyList || !heroMovieDbId}
+                loading={addingToList}
+                onClick={handleAddToList}
+                style={{
+                  backgroundColor: isInMyList ? '#333' : '#e50914',
+                  borderColor: isInMyList ? '#333' : '#e50914',
+                  fontWeight: 600,
+                }}
+              >
+                {isInMyList ? 'In My List' : 'Add to My List'}
+              </Button>
+            </div>
           </div>
         </div>
       </Modal>
