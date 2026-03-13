@@ -40,7 +40,9 @@ function Login() {
   //Auth mock. Just check if the user enters the provided values
   const onFinish = async (values) => {
     try {
-      if (values.username != "plainUser@gmail.com" || values.password != "password") {
+      const validUsername = process.env.REACT_APP_USERNAME || "plainUser@gmail.com";
+      const validPassword = process.env.REACT_APP_PASSWORD || "password";
+      if (values.username !== validUsername || values.password !== validPassword) {
         const error = "Wrong username or password";
         throw new Error(error);
       } else {

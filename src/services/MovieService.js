@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/graphql';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080/graphql';
 
 const MovieService = {
   async getMovies() {
@@ -24,8 +24,7 @@ const MovieService = {
 
   async getCarouselMovies(title) {
     const token = localStorage.getItem('access_token');
-    const API_URL = `http://localhost:8080/graphql?query=%7B${title.title}%7Bmovie%20%7Bid%20title%20description%20video%20image%7D%7D%7D`;
-    //const API_URL = `https://soloflix-resource.up.railway.app/graphql?query=%7B${title.title}%7Bmovie%20%7Bid%20title%20description%20video%20image%7D%7D%7D`;
+    const API_URL = `${process.env.REACT_APP_API_URL || 'http://localhost:8080/graphql'}?query=%7B${title.title}%7Bmovie%20%7Bid%20title%20description%20video%20image%7D%7D%7D`;
 
     const headers = {
       Authorization: `Bearer ${token}`,
